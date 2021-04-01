@@ -1,0 +1,16 @@
+.DS_Store
+indexer*
+indexer
+indexer.o
+indextest*
+indextest
+indextest.o
+newIndexFile
+newIndexFile.sorted
+oldIndexFile.sorted
+valgrind_test.sh
+oldIndexFile
+valgrindIndexfile
+cp_valgrindIndexfile
+core
+*.dSYM

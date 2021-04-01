@@ -1,0 +1,288 @@
+bash -v testing.sh
+# testing.sh - test for the querier module
+# Zitong Wu, Feburary 22, 2021
+#!/bin/bash
+
+
+######################### incorrect arguments
+######## incorrect number of arguments
+# no argument
+./querier
+usage: ./indexer pageDirectory indexFilename
+
+# one argument
+./querier data/depth2 
+usage: ./indexer pageDirectory indexFilename
+
+# more than two arguments
+./querier data/depth2 indexFile 3
+usage: ./indexer pageDirectory indexFilename
+
+
+######## invalid first argument
+# first argument pageDirectory does not exist 
+./querier foo/ indexFile
+The first argument foo/ does not exist or is not a Crawler-produced directory
+
+# first argument pageDirectory is not a Crawler-produced directory
+mkdir dir
+./querier dir/ indexFile
+The first argument dir/ does not exist or is not a Crawler-produced directory
+rm -rf dir
+
+
+######## invalid second argument
+# second argument indexFileName does not exist
+./querier data/depth1 indexFile2
+The second argument indexFileName indexFile2 does not exist or is not readable
+
+# second argument indexFileName exists but is not readable
+touch indexFile2
+chmod -r ./indexFile2
+./querier data/depth1 indexFile2
+The second argument indexFileName indexFile2 does not exist or is not readable
+rm -f indexFile2
+
+
+######################### correct arguments
+####### incorrect queries 
+# test queries containing special characters and having operators at incorrect positions
+# use self-created incorrect query examples
+./querier data/depth2 indexFile < incorrectQueries
+query should only contain spaces and letters
+query should only contain spaces and letters
+query should only contain spaces and letters
+query should only contain spaces and letters
+query should only contain spaces and letters
+Query: and
+query contains operators at incorrect positions
+Query: or
+query contains operators at incorrect positions
+Query: and design
+query contains operators at incorrect positions
+Query: or design
+query contains operators at incorrect positions
+Query: wikipedia design or
+query contains operators at incorrect positions
+Query: wikipedia design and
+query contains operators at incorrect positions
+Query: wikipedia and or design
+query contains operators at incorrect positions
+Query: wikipedia and and design
+query contains operators at incorrect positions
+Query: wikipedia or and design
+query contains operators at incorrect positions
+Query: wikipedia or or design
+query contains operators at incorrect positions
+query should only contain spaces and letters
+
+
+####### correct queries
+# test different combinations of "and", "or" operators 
+# use self-created correct query examples
+./querier data/depth2 indexFile < correctQueries
+Query: wikipedia and design
+Matches 7 documents (ranked): 
+score  13 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  11 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score   6 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score   4 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score   2 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score   2 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score   1 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+-----------------------------------------------------
+Query: wikipedia or design
+Matches 10 documents (ranked): 
+score  31 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  24 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score  17 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score  16 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score  15 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score  13 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score   7 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+score   1 doc  26: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/sapiens-a-brief-history-of-humankind_996/index.html
+score   1 doc  60: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/science_22/index.html
+score   1 doc   1: http://cs50tse.cs.dartmouth.edu/tse/
+-----------------------------------------------------
+Query: wikipedia and design and article
+Matches 6 documents (ranked): 
+score  13 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  11 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score   6 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score   4 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score   2 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score   2 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+-----------------------------------------------------
+Query: wikipedia and design or article
+Matches 7 documents (ranked): 
+score  36 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  24 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score  19 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score  14 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score  12 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score   8 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score   1 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+-----------------------------------------------------
+Query: wikipedia and design or art and travel
+Matches 61 documents (ranked): 
+score  13 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  11 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score   6 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score   4 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score   2 doc  80: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/travel_2/index.html
+score   2 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score   2 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score   1 doc  82: http://cs50tse.cs.dartmouth.edu/tse/toscrape/index.html
+score   1 doc  81: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books_1/index.html
+score   1 doc  79: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/mystery_3/index.html
+score   1 doc  78: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/historical-fiction_4/index.html
+score   1 doc  77: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/sequential-art_5/index.html
+score   1 doc  76: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/classics_6/index.html
+score   1 doc  75: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/philosophy_7/index.html
+score   1 doc  74: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/romance_8/index.html
+score   1 doc  73: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/womens-fiction_9/index.html
+score   1 doc  72: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/fiction_10/index.html
+score   1 doc  71: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/childrens_11/index.html
+score   1 doc  70: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/religion_12/index.html
+score   1 doc  69: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/nonfiction_13/index.html
+score   1 doc  68: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/music_14/index.html
+score   1 doc  67: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/default_15/index.html
+score   1 doc  66: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/science-fiction_16/index.html
+score   1 doc  65: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/sports-and-games_17/index.html
+score   1 doc  64: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/add-a-comment_18/index.html
+score   1 doc  63: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/fantasy_19/index.html
+score   1 doc  62: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/new-adult_20/index.html
+score   1 doc  61: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/young-adult_21/index.html
+score   1 doc  60: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/science_22/index.html
+score   1 doc  59: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/poetry_23/index.html
+score   1 doc  58: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/paranormal_24/index.html
+score   1 doc  57: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/art_25/index.html
+score   1 doc  56: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/psychology_26/index.html
+score   1 doc  55: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/autobiography_27/index.html
+score   1 doc  54: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/parenting_28/index.html
+score   1 doc  53: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/adult-fiction_29/index.html
+score   1 doc  52: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/humor_30/index.html
+score   1 doc  51: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/horror_31/index.html
+score   1 doc  50: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/history_32/index.html
+score   1 doc  49: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/food-and-drink_33/index.html
+score   1 doc  48: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/christian-fiction_34/index.html
+score   1 doc  47: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/business_35/index.html
+score   1 doc  46: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/biography_36/index.html
+score   1 doc  45: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/thriller_37/index.html
+score   1 doc  44: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/contemporary_38/index.html
+score   1 doc  43: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/spirituality_39/index.html
+score   1 doc  42: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/academic_40/index.html
+score   1 doc  41: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/self-help_41/index.html
+score   1 doc  40: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/historical_42/index.html
+score   1 doc  39: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/christian_43/index.html
+score   1 doc  38: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/suspense_44/index.html
+score   1 doc  37: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/short-stories_45/index.html
+score   1 doc  36: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/novels_46/index.html
+score   1 doc  35: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/health_47/index.html
+score   1 doc  34: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/politics_48/index.html
+score   1 doc  33: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/cultural_49/index.html
+score   1 doc  32: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/erotica_50/index.html
+score   1 doc  31: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/crime_51/index.html
+score   1 doc  10: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/page-2.html
+score   1 doc   9: http://cs50tse.cs.dartmouth.edu/tse/toscrape/
+score   1 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+-----------------------------------------------------
+Query: wikipedia or design and travel
+Matches 9 documents (ranked): 
+score  13 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score  13 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  12 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score  11 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score  11 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score  11 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score   6 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+score   1 doc  60: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/science_22/index.html
+score   1 doc   1: http://cs50tse.cs.dartmouth.edu/tse/
+-----------------------------------------------------
+Query: wikipedia or design or poems
+Matches 12 documents (ranked): 
+score  31 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  24 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score  17 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score  16 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score  15 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score  13 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score   7 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+score   6 doc  59: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/poetry_23/index.html
+score   1 doc  21: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/the-black-maria_991/index.html
+score   1 doc  26: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/sapiens-a-brief-history-of-humankind_996/index.html
+score   1 doc  60: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/science_22/index.html
+score   1 doc   1: http://cs50tse.cs.dartmouth.edu/tse/
+-----------------------------------------------------
+Query: wikipedia or design and website and books or world
+Matches 24 documents (ranked): 
+score  34 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score  20 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score  20 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score  13 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score  12 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score  11 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+score   6 doc   2: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+score   3 doc  22: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/the-boys-in-the-boat-nine-americans-and-their-epic-quest-for-gold-at-the-1936-berlin-olympics_992/index.html
+score   2 doc  14: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/olio_984/index.html
+score   2 doc  30: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/a-light-in-the-attic_1000/index.html
+score   2 doc  26: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/sapiens-a-brief-history-of-humankind_996/index.html
+score   1 doc  10: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/page-2.html
+score   1 doc  11: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/its-only-the-himalayas_981/index.html
+score   1 doc  21: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/the-black-maria_991/index.html
+score   1 doc  23: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/the-coming-woman-a-novel-based-on-the-life-of-the-infamous-feminist-victoria-woodhull_993/index.html
+score   1 doc  25: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/the-requiem-red_995/index.html
+score   1 doc  46: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/biography_36/index.html
+score   1 doc  67: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/default_15/index.html
+score   1 doc  71: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/childrens_11/index.html
+score   1 doc  75: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/philosophy_7/index.html
+score   1 doc  77: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/sequential-art_5/index.html
+score   1 doc  78: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/historical-fiction_4/index.html
+score   1 doc  60: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/category/books/science_22/index.html
+score   1 doc   1: http://cs50tse.cs.dartmouth.edu/tse/
+-----------------------------------------------------
+
+# use fuzzquery
+./fuzzquery indexFile 10 0 | ./querier data/depth2 indexFile
+./fuzzquery: generating 10 queries from 7850 words
+Query: albyn lakes heroine or conjecture
+Matches 1 documents (ranked): 
+score   1 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+-----------------------------------------------------
+Query: intermediate or deciphering or coalition or gardiner resemblance or date
+Matches 6 documents (ranked): 
+score   9 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score   7 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score   3 doc   8: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computer_science.html
+score   2 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+score   2 doc   6: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unix.html
+score   1 doc   4: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+-----------------------------------------------------
+Query: angels acsc
+No documents match.
+-----------------------------------------------------
+Query: quadrangulate
+No documents match.
+-----------------------------------------------------
+Query: transflux demonstrated or sulphoarsenious or nonthreaded shotput
+No documents match.
+-----------------------------------------------------
+Query: stroustrup or hoefnagel
+Matches 3 documents (ranked): 
+score   2 doc   5: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+score   2 doc   7: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C_(programming_language).html
+score   1 doc   3: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+-----------------------------------------------------
+Query: innovation turned and journals parts crisis
+No documents match.
+-----------------------------------------------------
+Query: join and imagine or unrebellious
+No documents match.
+-----------------------------------------------------
+Query: preemptive pentaiodide outspoken
+No documents match.
+-----------------------------------------------------
+Query: eliphalet cynomorphic or flytail or crossing
+Matches 1 documents (ranked): 
+score   1 doc  20: http://cs50tse.cs.dartmouth.edu/tse/toscrape/catalogue/starving-hearts-triangular-trade-trilogy-1_990/index.html
+-----------------------------------------------------

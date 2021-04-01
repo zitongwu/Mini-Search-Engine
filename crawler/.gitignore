@@ -1,0 +1,6 @@
+.DS_Store
+crawler*
+crawler
+crawler.o
+wikipedia/
+*.dSYM
