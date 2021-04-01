@@ -12,13 +12,13 @@ Mini Search Engine is a command-line web-search tool. It uses [crawler](https://
 * lib and common provide the data structures and utility functions
 
 ## Instructions
-To build for all directories, run `make`  
-To clean up all directories, run `make clean`  
-To test crawler and indexer and querier, run `make test` in the corresponding directory
+* To build for all directories, run `make`  
+* To clean up all directories, run `make clean`  
+* To test crawler and indexer and querier, run `make test` in the corresponding directory
 
 ## Examples
 Crawler:  
-<img width="496" alt="Screen Shot 2021-04-01 at 5 55 42 PM" src="https://user-images.githubusercontent.com/71951467/113290639-81293800-9324-11eb-8529-aee1e1c0fd12.png">
+<img width="524" alt="Screen Shot 2021-04-01 at 8 09 58 PM" src="https://user-images.githubusercontent.com/71951467/113291867-3e685f80-9326-11eb-9759-eb6d5c157c49.png">
 
 Indexer:  
 <img width="465" alt="Screen Shot 2021-04-01 at 6 08 28 PM" src="https://user-images.githubusercontent.com/71951467/113291681-f1848900-9325-11eb-93d7-cbe368c3956e.png"> 
