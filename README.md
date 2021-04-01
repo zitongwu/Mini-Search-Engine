@@ -21,7 +21,7 @@ Crawler:
 <img width="496" alt="Screen Shot 2021-04-01 at 5 55 42 PM" src="https://user-images.githubusercontent.com/71951467/113290639-81293800-9324-11eb-8529-aee1e1c0fd12.png">
 
 Indexer:  
-<img width="496" alt="Screen Shot 2021-04-01 at 5 55 42 PM" src="https://user-images.githubusercontent.com/71951467/113291080-1298aa00-9325-11eb-8ec9-d51ac0807eae.png">  
+<img width="465" alt="Screen Shot 2021-04-01 at 6 08 28 PM" src="https://user-images.githubusercontent.com/71951467/113291681-f1848900-9325-11eb-93d7-cbe368c3956e.png"> 
 
 Querier:  
 <img width="889" alt="Screen Shot 2021-04-01 at 6 14 30 PM" src="https://user-images.githubusercontent.com/71951467/113291252-58557280-9325-11eb-84fd-c25d60773ff9.png">
