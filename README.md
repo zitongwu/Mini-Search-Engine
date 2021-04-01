@@ -1,16 +1,22 @@
 # Miny Search Engine
-### Zitong Wu
+### Zitong Wu, Feb. 2021
 
-### 
-A command-line web-search tool.
+<br > 
 
-### Structure 
-* Contains 3 major components of a search engine: crawler, indexer, querier. See the specific directories for more information.
+## Description
 
-* lib and common provides the data structures and utility functions for the project. 
+Mini Search Engine is a command-line web-search tool. It uses [crawler]() to crawl the web starting from a "seed" URL, [indexer]() to turn the crawled webpages into a index file mapping from words to webpages, and[querier]() to answer queries entered by the user. Click on them for more information.
 
-### Usage
-To build for all directories, run `make`.
+## Examples
 
+
+## Structure
+* Three major components of a search engine: crawler, indexer, querier
+* lib and common provide the data structures and utility functions
+
+## Instructions
+To build for all directories, run `make`  
 To clean up all directories, run `make clean`
+To test crawler and indexer and querier, run `make test` in the corresponding directory
+
 
