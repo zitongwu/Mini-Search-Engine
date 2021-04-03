@@ -5,7 +5,7 @@
 
 ### crawler
 
-The crawler crawls a website and retrieves webpages starting with a specified URL. It parses the initial webpage, extracts all embedded URLs and retrieves those pages, and crawls the pages found at those URLs, in a recursive manner, but limits itself to maxDepth hops from the seed URL and to URLs that are ‘internal’ to the designated server:  http://old- www.cs.dartmouth.edu
+The crawler crawls a website and retrieves webpages starting with a specified URL. It parses the initial webpage, extracts all embedded URLs and retrieves those pages, and crawls the pages found at those URLs, in a recursive manner, but limits itself to maxDepth hops from the seed URL and to URLs that are ‘internal’ to the designated server "http://cs50tse.cs.dartmouth.edu/tse/"
  
 
 ### Usage
