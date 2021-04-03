@@ -1,2 +1,2 @@
-Contains crawled page files of different depths that will be used by the indexer and the querier
+Contains crawled page files (at different depths) that will be used by the indexer and the querier
  
