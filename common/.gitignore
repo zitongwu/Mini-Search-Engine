@@ -1,11 +1,8 @@
 .DS_Store
 pagedir.o
-pagedir*
 pagedir
 word.o
-word*
 word
-index*
 index
 index.o
 core

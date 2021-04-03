@@ -1,8 +1,6 @@
 .DS_Store
 querier.o
 querier
-querier*
-fuzzquery*
 fuzzquery
 fuzzquery.o
 queryIndex

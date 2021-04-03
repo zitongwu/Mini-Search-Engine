@@ -1,5 +1,5 @@
 .DS_Store
-crawler*
 crawler.o
+crawler
 wikipedia/
 *.dSYM
